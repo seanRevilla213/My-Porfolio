@@ -11,6 +11,7 @@ Vanilla JavaScript	Core functionality	ES6+
 
 
 Key Features & Implementation
+
 1. AI Chatbot Assistant
 Technology: Custom JavaScript + Firestore-ready
 
@@ -67,8 +68,30 @@ Mobile menu - Smooth slide-out navigation
 
 
 Backend & Database
-Component	Technology	Implementation
-Database	Firebase Firestore	Cloud NoSQL database
-Authentication	Firebase Auth	Ready for implementation
-Hosting	Firebase Hosting	CDN-enabled deployment
-Real-time	Firestore listeners	Prepared for dynamic content
+
+Component	
+Technology	
+Implementation
+
+Database	
+Firebase Firestore	
+Cloud NoSQL database
+
+Authentication	
+Firebase Auth	
+Ready for implementation
+
+Hosting	
+Firebase Hosting	
+CDN-enabled deployment
+
+Real-time	
+Firestore listeners	
+Prepared for dynamic content
+
+
+
+
+
+
+
