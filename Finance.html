@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fees and Payments - LearnGate</title>
+    <link rel="shortcut icon" href="graduation-cap.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add jsPDF and autoTable for better PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <!-- Add html2canvas for capturing elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #f0f2ff 100%);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .logo-container:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .logo {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--dark);
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text .title-main {
+            display: block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 1.9rem;
+        }
+
+        .logo-text .title-sub {
+            display: block;
+            color: var(--dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .logo-text p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 0.3rem;
+            font-weight: 500;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .user-id {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            padding: 2rem;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .page-title h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a08a0;
+            transform: translateY(-2px);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .student-details-container {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .student-info-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%);
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .student-info-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .student-info-title h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .balance-summary {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .balance-card {
+            background: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 150px;
+        }
+
+        .balance-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .balance-positive {
+            color: var(--success);
+        }
+
+        .balance-negative {
+            color: var(--danger);
+        }
+
+        .student-info-grid {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        /* Editable field styling */
+        .info-value.editable {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .info-value.editable i {
+            font-size: 0.9rem;
+            color: var(--primary);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        .info-value.editable:hover i {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .edit-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+        }
+        .edit-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .edit-actions button {
+            padding: 0.3rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .save-btn {
+            background: var(--success);
+            color: white;
+        }
+        .cancel-btn {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .fees-details {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .fees-header {
+            padding: 1.5rem 2rem;
+            background: white;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .fees-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.6rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-select:hover {
+            border-color: var(--primary);
+        }
+
+        .fees-table-container {
+            overflow-x: auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .fees-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 1200px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius);
+        }
+
+        .fees-table thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .fees-table th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .fees-table th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+
+        .fees-table th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+
+        .fees-table tbody tr {
+            background: white;
+            transition: var(--transition);
+        }
+
+        .fees-table tbody tr:hover {
+            background: var(--light);
+        }
+
+        .fees-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        .fees-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .amount-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .amount-positive {
+            color: var(--success);
+        }
+
+        .amount-negative {
+            color: var(--danger);
+        }
+
+        .amount-neutral {
+            color: var(--gray);
+        }
+
+        .receipt-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .action-btn.print {
+            background: var(--primary);
+        }
+
+        .action-btn.download {
+            background: var(--success);
+        }
+
+        .action-btn.pdf {
+            background: var(--secondary);
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-paid {
+            background: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(247, 37, 133, 0.2);
+            color: var(--danger);
+        }
+
+        .status-partial {
+            background: rgba(248, 150, 30, 0.2);
+            color: var(--warning);
+        }
+
+        .pdf-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            visibility: hidden;
+        }
+
+        .pdf-loading.active {
+            visibility: visible;
+        }
+
+        .pdf-loading-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        .pdf-loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--gray-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Print styles: hide all UI chrome, show only content */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .print-receipt-area, .print-statement-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+            }
+            .print-receipt-area *, .print-statement-area * {
+                visibility: visible;
+            }
+            .header, .page-header .btn-group, .filters, .receipt-actions, .action-btn, .btn, .logo-container,
+            .student-info-header .btn-outline, .student-info-header .balance-summary, .fees-header .filters,
+            .fees-table th:last-child, .fees-table td:last-child {
+                display: none !important;
+            }
+            .student-info-grid, .fees-table-container {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .student-details-container, .fees-details {
+                box-shadow: none !important;
+                border: none !important;
+            }
+            .fees-table {
+                border-collapse: collapse !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .btn-group {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .student-info-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .fees-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .balance-summary {
+                flex-wrap: wrap;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .balance-card {
+                min-width: 120px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo-text .title-main {
+                font-size: 1.6rem;
+            }
+            
+            .logo-text .title-sub {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .user-profile {
+                margin-top: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.3rem;
+            }
+            
+            .logo-text .title-main {
+                font-size: 1.4rem;
+            }
+            
+            .logo-text .title-sub {
+                font-size: 1.1rem;
+            }
+            
+            .student-info-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .student-info-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .fees-header {
+                padding: 1rem;
+            }
+            
+            .fees-table-container {
+                padding: 0 1rem 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .filters {
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            
+            .filter-select {
+                flex-grow: 1;
+            }
+            
+            .balance-card {
+                padding: 0.6rem 1rem;
+                font-size: 1rem;
+                min-width: 100px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+            
+            .logo-text .title-main {
+                font-size: 1.3rem;
+            }
+            
+            .logo-text .title-sub {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PDF Loading Indicator -->
+    <div class="pdf-loading" id="pdfLoading">
+        <div class="pdf-loading-content">
+            <div class="pdf-loading-spinner"></div>
+            <h3>Generating PDF...</h3>
+            <p>Please wait while we prepare your document</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container" onclick="window.location.href='maindashboard.html'">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="logo-text">
+                <h1>
+                    <span class="title-main">LearnGate</span>
+                    <span class="title-sub">Finance Portal</span>
+                </h1>
+                <p>My Fees and Payments</p>
+            </div>
+        </div>
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-name" id="userName">Loading...</div>
+                <div class="user-id" id="userId">Loading...</div>
+            </div>
+            <div class="user-avatar" id="userAvatar">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>My Fees and Payments</h2>
+                    <p>View your fee transactions, payment history, and balance details</p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline" id="backToDashboardBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <button class="btn btn-primary" id="downloadStatementBtn">
+                        <i class="fas fa-file-pdf"></i> Download Statement (PDF)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Student Details Section -->
+            <div class="student-details-container">
+                <div class="student-info-header">
+                    <div class="student-info-title">
+                        <h3>My Financial Profile</h3>
+                        <button class="btn btn-outline" id="editProfileBtn" style="padding:0.5rem 1rem; font-size:0.9rem;"><i class="fas fa-pen"></i> Edit Profile</button>
+                    </div>
+                    <div class="balance-summary">
+                        <div class="balance-card">
+                            <div class="balance-label">TOTAL FEES</div>
+                            <div class="amount-cell" id="totalFees">Loading...</div>
+                        </div>
+                        <div class="balance-card">
+                            <div class="balance-label">AMOUNT PAID</div>
+                            <div class="balance-positive" id="paidFees">Loading...</div>
+                        </div>
+                        <div class="balance-card">
+                            <div class="balance-label">BALANCE DUE</div>
+                            <div class="balance-negative" id="balanceFees">Loading...</div>
+                        </div>
+                        <div class="balance-card">
+                            <div class="balance-label">SCHOLARSHIP</div>
+                            <div class="balance-positive" id="scholarshipAmount">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="student-info-grid" id="studentInfoGrid">
+                    <!-- Student info will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Enhanced Fees Details Section -->
+            <div class="fees-details">
+                <div class="fees-header">
+                    <h3><i class="fas fa-file-invoice-dollar"></i> My Fee Transactions</h3>
+                    <div class="filters">
+                        <select class="filter-select" id="semesterFilter">
+                            <option value="all">All Semesters</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                        </select>
+                        <select class="filter-select" id="receiptTypeFilter">
+                            <option value="all">All Receipt Types</option>
+                            <option value="tuition">Tuition Fee</option>
+                            <option value="hostel">Hostel Fee</option>
+                            <option value="library">Library Fee</option>
+                            <option value="exam">Exam Fee</option>
+                        </select>
+                        <select class="filter-select" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="paid">Paid</option>
+                            <option value="partial">Partial</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="fees-table-container">
+                    <table class="fees-table" id="feesTable">
+                        <thead>
+                            <tr>
+                                <th>SR.NO</th>
+                                <th>SEMESTER</th>
+                                <th>RECEIPT TYPE</th>
+                                <th>RECEIPT NO</th>
+                                <th>AMOUNT DUE</th>
+                                <th>SCHOLARSHIP</th>
+                                <th>PAID AMOUNT</th>
+                                <th>BALANCE</th>
+                                <th>EXCESS</th>
+                                <th>EXCESS ADJUSTED</th>
+                                <th>RECEIPT DATE</th>
+                                <th>DUE DATE</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feesTableBody">
+                            <!-- Fees data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden container for PDF generation (not displayed) -->
+    <div style="display: none;" id="pdfTemplate"></div>
+
+    <script>
+        // Course data mapping
+        const courseCodes = {
+            '09': 'Bachelor of Science in Information Technology',
+            '10': 'Bachelor of Science in Computer Science',
+            '11': 'Bachelor of Science in Nursing',
+            '12': 'Bachelor of Elementary Education',
+            '13': 'Bachelor of Secondary Education',
+            '14': 'Bachelor of Science in Accountancy',
+            '15': 'Bachelor of Science in Civil Engineering',
+            '16': 'Bachelor of Science in Mechanical Engineering',
+            '17': 'Bachelor of Science in Electrical Engineering',
+            '18': 'Bachelor of Science in Business Administration',
+            '19': 'Bachelor of Science in Psychology',
+            '20': 'Bachelor of Science in Hospitality Management'
+        };
+
+        // Get user data from localStorage
+        function getUserData() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                return JSON.parse(currentUser);
+            }
+            
+            const financeUserData = localStorage.getItem('financeUserData');
+            if (financeUserData) {
+                return JSON.parse(financeUserData);
+            }
+            
+            return null;
+        }
+
+        // Save updated user data back to localStorage
+        function updateUserData(updatedUser) {
+            // Try to update in both possible keys
+            if (localStorage.getItem('currentUser')) {
+                localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            }
+            if (localStorage.getItem('financeUserData')) {
+                localStorage.setItem('financeUserData', JSON.stringify(updatedUser));
+            }
+        }
+
+        // Generate sample student data based on logged-in user
+        function generateStudentData(user) {
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            
+            const courseCode = user.courseCode || '09';
+            const courseName = courseCodes[courseCode] || courseCodes['09'];
+            
+            const baseFinance = {
+                '09': { total: 200000, perSemester: 50000, hostel: 25000 },
+                '10': { total: 210000, perSemester: 52500, hostel: 26000 },
+                '11': { total: 180000, perSemester: 45000, hostel: 30000 },
+                '12': { total: 150000, perSemester: 37500, hostel: 20000 },
+                '13': { total: 160000, perSemester: 40000, hostel: 22000 },
+                '14': { total: 190000, perSemester: 47500, hostel: 24000 },
+                '15': { total: 220000, perSemester: 55000, hostel: 28000 },
+                '16': { total: 215000, perSemester: 53750, hostel: 27000 },
+                '17': { total: 205000, perSemester: 51250, hostel: 26000 },
+                '18': { total: 170000, perSemester: 42500, hostel: 23000 },
+                '19': { total: 175000, perSemester: 43750, hostel: 24000 },
+                '20': { total: 165000, perSemester: 41250, hostel: 22000 }
+            };
+            
+            const financeData = baseFinance[courseCode] || baseFinance['09'];
+            
+            const studentId = user.studentId || "STU-" + Math.floor(1000 + Math.random() * 9000);
+            const studentName = user.name || "Student";
+            const mobile = user.mobile || "+63 " + Math.floor(9000000000 + Math.random() * 1000000000).toString().substring(0, 10);
+            
+            return {
+                id: studentId,
+                name: studentName,
+                mobile: mobile,
+                email: user.email || "student@university.edu.ph",
+                status: user.status || "Active",
+                campus: "Main Campus",
+                college: "College of Technology",
+                course: courseName,
+                learningModality: "Regular",
+                admissionDate: user.admissionDate || "2024-01-15",
+                totalFees: financeData.total,
+                paidFees: Math.floor(financeData.total * 0.55),
+                balanceFees: financeData.total - Math.floor(financeData.total * 0.55),
+                scholarshipTotal: Math.floor(financeData.total * 0.1),
+                fees: [
+                    { srNo: 1, semester: "Semester 1", receiptType: "Tuition Fee", receiptNo: "RCPT-2024-001", amountDue: financeData.perSemester, scholarship: Math.floor(financeData.perSemester * 0.2), paid: financeData.perSemester - 5000, balance: -5000, excess: 5000, excessAdjusted: 0, receiptDate: "2024-01-15", dueDate: "2024-01-10", status: "Paid" },
+                    { srNo: 2, semester: "Semester 1", receiptType: "Hostel Fee", receiptNo: "RCPT-2024-005", amountDue: financeData.hostel, scholarship: 0, paid: financeData.hostel - 5000, balance: 5000, excess: 0, excessAdjusted: 0, receiptDate: "2024-01-20", dueDate: "2024-01-15", status: "Partial" },
+                    { srNo: 3, semester: "Semester 1", receiptType: "Library Fee", receiptNo: "RCPT-2024-008", amountDue: 5000, scholarship: 0, paid: 5000, balance: 0, excess: 0, excessAdjusted: 0, receiptDate: "2024-02-01", dueDate: "2024-01-25", status: "Paid" },
+                    { srNo: 4, semester: "Semester 2", receiptType: "Tuition Fee", receiptNo: "RCPT-2024-012", amountDue: financeData.perSemester, scholarship: Math.floor(financeData.perSemester * 0.2), paid: financeData.perSemester - 10000, balance: 0, excess: 0, excessAdjusted: 0, receiptDate: "2024-06-10", dueDate: "2024-06-05", status: "Paid" },
+                    { srNo: 5, semester: "Semester 2", receiptType: "Hostel Fee", receiptNo: "RCPT-2024-015", amountDue: financeData.hostel, scholarship: 0, paid: 0, balance: financeData.hostel, excess: 0, excessAdjusted: 0, receiptDate: "", dueDate: "2024-07-15", status: "Pending" },
+                    { srNo: 6, semester: "Semester 2", receiptType: "Exam Fee", receiptNo: "RCPT-2024-018", amountDue: 8000, scholarship: 0, paid: 0, balance: 8000, excess: 0, excessAdjusted: 0, receiptDate: "", dueDate: "2024-07-20", status: "Pending" }
+                ]
+            };
+        }
+
+        // Get initials from name
+        function getInitials(name) {
+            if (!name) return '?';
+            return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        // Global variable to hold current student data
+        let currentStudent = null;
+
+        // Show/hide PDF loading indicator
+        function showPdfLoading(show) {
+            document.getElementById('pdfLoading').className = show ? 'pdf-loading active' : 'pdf-loading';
+        }
+
+        // Render the student info grid with editable fields for name, mobile, email
+        function renderStudentInfoGrid(student) {
+            const grid = document.getElementById('studentInfoGrid');
+            grid.innerHTML = `
+                <div class="info-card" data-field="name">
+                    <div class="info-label">STUDENT NAME</div>
+                    <div class="info-value editable" onclick="editField('name', '${student.name.replace(/'/g, "\\'")}')">
+                        <span>${student.name}</span>
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">STUDENT ID</div>
+                    <div class="info-value">${student.id}</div>
+                </div>
+                <div class="info-card" data-field="email">
+                    <div class="info-label">EMAIL</div>
+                    <div class="info-value editable" onclick="editField('email', '${student.email.replace(/'/g, "\\'")}')">
+                        <span>${student.email}</span>
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                </div>
+                <div class="info-card" data-field="mobile">
+                    <div class="info-label">MOBILE NO</div>
+                    <div class="info-value editable" onclick="editField('mobile', '${student.mobile.replace(/'/g, "\\'")}')">
+                        <span>${student.mobile}</span>
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">STATUS</div>
+                    <div class="info-value">
+                        <span class="status-badge ${student.status === 'Active' ? 'status-paid' : 'status-pending'}">
+                            ${student.status}
+                        </span>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">CAMPUS</div>
+                    <div class="info-value">${student.campus}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">COLLEGE</div>
+                    <div class="info-value">${student.college}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">COURSE</div>
+                    <div class="info-value">${student.course}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">LEARNING MODALITY</div>
+                    <div class="info-value">${student.learningModality}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">ADMISSION DATE</div>
+                    <div class="info-value">${student.admissionDate}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">TOTAL FEES</div>
+                    <div class="info-value">₱${student.totalFees.toLocaleString()}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">PAID AMOUNT</div>
+                    <div class="info-value">₱${student.paidFees.toLocaleString()}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">BALANCE DUE</div>
+                    <div class="info-value ${student.balanceFees > 0 ? 'amount-negative' : 'amount-positive'}">₱${student.balanceFees.toLocaleString()}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">SCHOLARSHIP TOTAL</div>
+                    <div class="info-value amount-positive">₱${student.scholarshipTotal.toLocaleString()}</div>
+                </div>
+            `;
+        }
+
+        // Edit field inline
+        window.editField = function(field, currentValue) {
+            const card = document.querySelector(`.info-card[data-field="${field}"] .info-value`);
+            if (!card) return;
+            
+            // Escape quotes for safe HTML attribute
+            const safeValue = currentValue.replace(/"/g, '&quot;');
+            card.innerHTML = `
+                <input type="text" class="edit-input" id="edit-${field}" value="${safeValue}">
+                <div class="edit-actions">
+                    <button class="save-btn" onclick="saveField('${field}')">Save</button>
+                    <button class="cancel-btn" onclick="cancelEdit('${field}', '${safeValue}')">Cancel</button>
+                </div>
+            `;
+        };
+
+        window.saveField = function(field) {
+            const input = document.getElementById(`edit-${field}`);
+            if (!input) return;
+            const newValue = input.value.trim();
+            if (!newValue) return;
+
+            // Update currentStudent
+            if (field === 'name') currentStudent.name = newValue;
+            else if (field === 'email') currentStudent.email = newValue;
+            else if (field === 'mobile') currentStudent.mobile = newValue;
+
+            // Update the user in localStorage
+            const user = getUserData();
+            if (user) {
+                user.name = currentStudent.name;
+                user.email = currentStudent.email;
+                user.mobile = currentStudent.mobile;
+                updateUserData(user);
+            }
+
+            // Update header
+            document.getElementById('userName').textContent = currentStudent.name;
+            document.getElementById('userAvatar').innerHTML = getInitials(currentStudent.name);
+
+            // Re-render grid
+            renderStudentInfoGrid(currentStudent);
+        };
+
+        window.cancelEdit = function(field, oldValue) {
+            const card = document.querySelector(`.info-card[data-field="${field}"] .info-value`);
+            if (card) {
+                // Decode &quot; back to " for display
+                const displayValue = oldValue.replace(/&quot;/g, '"');
+                card.innerHTML = `<span>${displayValue}</span> <i class="fas fa-pencil-alt" onclick="editField('${field}', '${oldValue}')"></i>`;
+            }
+        };
+
+        // Initialize student data
+        function initializeStudentData() {
+            const user = getUserData();
+            if (!user) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            
+            currentStudent = generateStudentData(user);
+            
+            document.getElementById('userName').textContent = currentStudent.name;
+            document.getElementById('userId').textContent = currentStudent.id;
+            document.getElementById('userAvatar').innerHTML = getInitials(currentStudent.name);
+            
+            document.getElementById('totalFees').textContent = `₱${currentStudent.totalFees.toLocaleString()}`;
+            document.getElementById('paidFees').textContent = `₱${currentStudent.paidFees.toLocaleString()}`;
+            document.getElementById('balanceFees').textContent = `₱${currentStudent.balanceFees.toLocaleString()}`;
+            document.getElementById('scholarshipAmount').textContent = `₱${currentStudent.scholarshipTotal.toLocaleString()}`;
+            
+            renderStudentInfoGrid(currentStudent);
+            
+            updateFeesTable(currentStudent.fees);
+            
+            return currentStudent;
+        }
+
+        // Update fees table (unchanged from original, with full PDF/print logic intact)
+        function updateFeesTable(fees) {
+            const feesTableBody = document.getElementById('feesTableBody');
+            feesTableBody.innerHTML = '';
+            
+            let filteredFees = [...fees];
+            const semesterFilter = document.getElementById('semesterFilter');
+            const receiptTypeFilter = document.getElementById('receiptTypeFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            
+            if (semesterFilter.value !== 'all') {
+                const semesterNum = semesterFilter.value;
+                filteredFees = filteredFees.filter(fee => fee.semester.includes(semesterNum));
+            }
+            
+            if (receiptTypeFilter.value !== 'all') {
+                filteredFees = filteredFees.filter(fee => 
+                    fee.receiptType.toLowerCase().includes(receiptTypeFilter.value.toLowerCase())
+                );
+            }
+            
+            if (statusFilter.value !== 'all') {
+                filteredFees = filteredFees.filter(fee => 
+                    fee.status.toLowerCase() === statusFilter.value.toLowerCase()
+                );
+            }
+            
+            filteredFees.forEach(fee => {
+                const row = document.createElement('tr');
+                
+                let statusClass = '';
+                let statusText = fee.status;
+                
+                if (fee.status === 'Paid') {
+                    statusClass = 'status-paid';
+                } else if (fee.status === 'Partial') {
+                    statusClass = 'status-partial';
+                } else if (fee.status === 'Pending') {
+                    statusClass = 'status-pending';
+                }
+                
+                const receiptDate = fee.receiptDate || "Not Paid";
+                
+                row.innerHTML = `
+                    <td>${fee.srNo}</td>
+                    <td>${fee.semester}</td>
+                    <td>${fee.receiptType}</td>
+                    <td><strong>${fee.receiptNo}</strong></td>
+                    <td class="amount-cell">₱${fee.amountDue.toLocaleString()}</td>
+                    <td class="amount-cell">₱${fee.scholarship.toLocaleString()}</td>
+                    <td class="amount-cell amount-positive">₱${fee.paid.toLocaleString()}</td>
+                    <td class="amount-cell ${fee.balance > 0 ? 'amount-negative' : 'amount-positive'}">₱${fee.balance.toLocaleString()}</td>
+                    <td class="amount-cell">₱${fee.excess.toLocaleString()}</td>
+                    <td class="amount-cell">₱${fee.excessAdjusted.toLocaleString()}</td>
+                    <td>${receiptDate}</td>
+                    <td>${fee.dueDate}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="receipt-actions">
+                            <button class="action-btn print" title="Print Receipt" onclick="printReceipt('${fee.receiptNo}')" ${fee.status === 'Pending' ? 'disabled' : ''}>
+                                <i class="fas fa-print"></i>
+                            </button>
+                            <button class="action-btn pdf" title="Download PDF Receipt" onclick="downloadReceiptPDF('${fee.receiptNo}')" ${fee.status === 'Pending' ? 'disabled' : ''}>
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                feesTableBody.appendChild(row);
+            });
+            
+            if (filteredFees.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="14" style="text-align: center; padding: 2rem; color: var(--gray);">
+                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                        <h3>No fee transactions found</h3>
+                        <p>Try changing your filter criteria</p>
+                    </td>
+                `;
+                feesTableBody.appendChild(row);
+            }
+        }
+
+        // ========== ENHANCED PDF/PRINT FUNCTIONS - NO UI COMPONENTS VISIBLE ==========
+        
+        // Helper to hide UI and show only receipt content for print
+        function prepareReceiptPrint(fee) {
+            // Create a temporary div with receipt content only
+            const printDiv = document.createElement('div');
+            printDiv.className = 'print-receipt-area';
+            printDiv.style.padding = '20px';
+            printDiv.style.fontFamily = 'Arial, sans-serif';
+            printDiv.style.maxWidth = '800px';
+            printDiv.style.margin = '0 auto';
+            
+            const now = new Date().toLocaleDateString();
+            
+            printDiv.innerHTML = `
+                <div style="text-align:center; margin-bottom:30px;">
+                    <h1 style="color:#4361ee;">LearnGate University</h1>
+                    <h2>Official Receipt</h2>
+                    <p>Receipt No: ${fee.receiptNo}</p>
+                </div>
+                <div style="margin-bottom:20px; border-bottom:1px solid #ccc; padding-bottom:10px;">
+                    <p><strong>Student ID:</strong> ${currentStudent.id}</p>
+                    <p><strong>Student Name:</strong> ${currentStudent.name}</p>
+                    <p><strong>Semester:</strong> ${fee.semester}</p>
+                    <p><strong>Receipt Type:</strong> ${fee.receiptType}</p>
+                </div>
+                <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+                    <tr style="background:#f0f2ff;">
+                        <th style="padding:10px; border:1px solid #ddd; text-align:left;">Description</th>
+                        <th style="padding:10px; border:1px solid #ddd; text-align:right;">Amount (₱)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #ddd;">Amount Due</td>
+                        <td style="padding:10px; border:1px solid #ddd; text-align:right;">${fee.amountDue.toLocaleString()}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #ddd;">Scholarship</td>
+                        <td style="padding:10px; border:1px solid #ddd; text-align:right;">${fee.scholarship.toLocaleString()}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #ddd; font-weight:bold;">Paid Amount</td>
+                        <td style="padding:10px; border:1px solid #ddd; text-align:right; font-weight:bold;">${fee.paid.toLocaleString()}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid #ddd;">Balance</td>
+                        <td style="padding:10px; border:1px solid #ddd; text-align:right;">${fee.balance.toLocaleString()}</td>
+                    </tr>
+                </table>
+                <div style="margin-top:30px; font-size:0.9em;">
+                    <p><strong>Receipt Date:</strong> ${fee.receiptDate || 'N/A'}</p>
+                    <p><strong>Due Date:</strong> ${fee.dueDate}</p>
+                    <p><strong>Status:</strong> ${fee.status}</p>
+                    <p><strong>Printed on:</strong> ${now}</p>
+                </div>
+                <div style="margin-top:50px; text-align:center;">
+                    <p>Thank you for your payment.</p>
+                </div>
+            `;
+            
+            return printDiv;
+        }
+
+        // Print receipt - shows only receipt content
+        function printReceipt(receiptNo) {
+            if (!currentStudent) return;
+            const fee = currentStudent.fees.find(f => f.receiptNo === receiptNo);
+            if (!fee || fee.status === 'Pending') {
+                alert('Receipt not available for printing.');
+                return;
+            }
+            
+            const printContent = prepareReceiptPrint(fee);
+            
+            // Open a new window for printing
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Receipt ${fee.receiptNo}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        @media print {
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printContent.outerHTML}
+                    <div class="no-print" style="text-align:center; margin-top:30px;">
+                        <button onclick="window.print()">Print Receipt</button>
+                        <button onclick="window.close()">Close</button>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Download receipt PDF - generates PDF with only receipt content
+        async function downloadReceiptPDF(receiptNo) {
+            if (!currentStudent) return;
+            const fee = currentStudent.fees.find(f => f.receiptNo === receiptNo);
+            if (!fee || fee.status === 'Pending') {
+                alert('Receipt not available for download.');
+                return;
+            }
+            
+            showPdfLoading(true);
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Build PDF content directly (no UI elements)
+                doc.setFontSize(20);
+                doc.setTextColor(67, 97, 238);
+                doc.text('LearnGate University', 20, 20);
+                doc.setFontSize(16);
+                doc.setTextColor(0, 0, 0);
+                doc.text('Official Receipt', 20, 30);
+                doc.setFontSize(12);
+                doc.text(`Receipt No: ${fee.receiptNo}`, 20, 40);
+                doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, 40);
+                
+                doc.line(20, 45, 190, 45); // horizontal line
+                
+                let y = 55;
+                doc.text(`Student ID: ${currentStudent.id}`, 20, y); y += 8;
+                doc.text(`Student Name: ${currentStudent.name}`, 20, y); y += 8;
+                doc.text(`Semester: ${fee.semester}`, 20, y); y += 8;
+                doc.text(`Receipt Type: ${fee.receiptType}`, 20, y); y += 10;
+                
+                // Table-like structure
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Description', 20, y);
+                doc.text('Amount (₱)', 150, y);
+                doc.setFont('helvetica', 'normal');
+                y += 6;
+                doc.line(20, y-2, 190, y-2);
+                
+                let items = [
+                    ['Amount Due', fee.amountDue.toLocaleString()],
+                    ['Scholarship', fee.scholarship.toLocaleString()],
+                    ['Paid Amount', fee.paid.toLocaleString()],
+                    ['Balance', fee.balance.toLocaleString()]
+                ];
+                
+                items.forEach(item => {
+                    doc.text(item[0], 20, y);
+                    doc.text(item[1], 150, y);
+                    y += 8;
+                });
+                
+                y += 5;
+                doc.line(20, y-2, 190, y-2);
+                doc.text(`Receipt Date: ${fee.receiptDate || 'N/A'}`, 20, y); y += 7;
+                doc.text(`Due Date: ${fee.dueDate}`, 20, y); y += 7;
+                doc.text(`Status: ${fee.status}`, 20, y);
+                
+                // Footer
+                doc.setFontSize(10);
+                doc.text('Thank you for your payment.', 105, 270, { align: 'center' });
+                
+                doc.save(`Receipt_${fee.receiptNo}.pdf`);
+            } catch (error) {
+                console.error(error);
+                alert('Error generating PDF.');
+            } finally {
+                showPdfLoading(false);
+            }
+        }
+
+        // Download full statement PDF - contains only summary and fees table, no UI
+        async function downloadStatementPDF() {
+            if (!currentStudent) return;
+            showPdfLoading(true);
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('l', 'pt', 'a4'); // landscape for table
+                
+                // Header
+                doc.setFontSize(18);
+                doc.setTextColor(67, 97, 238);
+                doc.text('LearnGate University', 40, 40);
+                doc.setFontSize(14);
+                doc.setTextColor(0, 0, 0);
+                doc.text('Fee Statement', 40, 60);
+                doc.setFontSize(11);
+                doc.text(`Student: ${currentStudent.name} (${currentStudent.id})`, 40, 80);
+                doc.text(`Generated: ${new Date().toLocaleDateString()}`, 400, 80);
+                
+                // Summary
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Summary', 40, 110);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`Total Fees: ₱${currentStudent.totalFees.toLocaleString()}`, 40, 130);
+                doc.text(`Paid Amount: ₱${currentStudent.paidFees.toLocaleString()}`, 40, 145);
+                doc.text(`Balance Due: ₱${currentStudent.balanceFees.toLocaleString()}`, 40, 160);
+                doc.text(`Scholarship Total: ₱${currentStudent.scholarshipTotal.toLocaleString()}`, 40, 175);
+                
+                // Table of transactions
+                const tableColumn = [
+                    'SR.NO', 'SEMESTER', 'TYPE', 'RECEIPT NO', 'AMOUNT DUE', 'SCHOLARSHIP',
+                    'PAID', 'BALANCE', 'EXCESS', 'ADJUSTED', 'RECEIPT DATE', 'DUE DATE', 'STATUS'
+                ];
+                const tableRows = [];
+                
+                currentStudent.fees.forEach(fee => {
+                    tableRows.push([
+                        fee.srNo,
+                        fee.semester,
+                        fee.receiptType,
+                        fee.receiptNo,
+                        `₱${fee.amountDue.toLocaleString()}`,
+                        `₱${fee.scholarship.toLocaleString()}`,
+                        `₱${fee.paid.toLocaleString()}`,
+                        `₱${fee.balance.toLocaleString()}`,
+                        `₱${fee.excess.toLocaleString()}`,
+                        `₱${fee.excessAdjusted.toLocaleString()}`,
+                        fee.receiptDate || 'Not Paid',
+                        fee.dueDate,
+                        fee.status
+                    ]);
+                });
+                
+                doc.autoTable({
+                    head: [tableColumn],
+                    body: tableRows,
+                    startY: 190,
+                    theme: 'striped',
+                    headStyles: { fillColor: [67, 97, 238] },
+                    styles: { fontSize: 8 }
+                });
+                
+                doc.save(`Statement_${currentStudent.id}.pdf`);
+            } catch (error) {
+                console.error(error);
+                alert('Error generating statement.');
+            } finally {
+                showPdfLoading(false);
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStudentData();
+            
+            const semesterFilter = document.getElementById('semesterFilter');
+            const receiptTypeFilter = document.getElementById('receiptTypeFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const downloadStatementBtn = document.getElementById('downloadStatementBtn');
+            const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            
+            semesterFilter.addEventListener('change', () => updateFeesTable(currentStudent.fees));
+            receiptTypeFilter.addEventListener('change', () => updateFeesTable(currentStudent.fees));
+            statusFilter.addEventListener('change', () => updateFeesTable(currentStudent.fees));
+            
+            downloadStatementBtn.addEventListener('click', downloadStatementPDF);
+            
+            backToDashboardBtn.addEventListener('click', function() {
+                window.location.href = 'maindashboard.html';
+            });
+            
+            // Edit profile button triggers edit on name field as convenience
+            editProfileBtn.addEventListener('click', function() {
+                editField('name', currentStudent.name);
+            });
+            
+            document.querySelector('.logo-container').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'maindashboard.html';
+            });
+            
+            document.querySelector('.logo').addEventListener('dblclick', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-graduation-cap"></i>';
+                    initializeStudentData();
+                    alert('Financial data refreshed successfully!');
+                }, 800);
+            });
+            
+            const user = getUserData();
+            if (user) {
+                console.log('Finance portal initialized for user:', user.name);
+            }
+        });
+    </script>
+</body>
+</html>
