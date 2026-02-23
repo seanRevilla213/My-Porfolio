@@ -364,214 +364,6 @@
             }
         }
 
-        /* ----- CHATBOT – collapsible, fixed, clean, no mobile open button now ----- */
-        .chatbot-wrapper {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            width: 400px;
-            max-width: calc(100vw - 50px);
-            border-radius: 28px;
-            background: rgba(5, 15, 30, 0.92);
-            backdrop-filter: blur(24px);
-            border: 1.5px solid rgba(0, 255, 255, 0.5);
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
-            overflow: hidden;
-            transition: 0.3s ease;
-        }
-
-        .chatbot-header {
-            background: linear-gradient(135deg, #0a1e3a, #0c2a4a);
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1.5px solid cyan;
-            cursor: pointer;
-        }
-
-        .chatbot-header h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .chatbot-header h3 i {
-            color: cyan;
-            text-shadow: 0 0 12px cyan;
-        }
-
-        .chatbot-toggle-btn {
-            background: none;
-            border: none;
-            color: cyan;
-            font-size: 1.7rem;
-            cursor: pointer;
-        }
-
-        .chatbot-body {
-            height: 460px;
-            display: flex;
-            flex-direction: column;
-            transition: height 0.3s ease, opacity 0.2s;
-        }
-
-        .chatbot-body.collapsed {
-            height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background: rgba(0, 0, 0, 0.25);
-        }
-
-        .message {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            animation: msgSlide 0.25s;
-        }
-
-        @keyframes msgSlide {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.user {
-            flex-direction: row-reverse;
-        }
-
-        .message .avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #1a2e4a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: cyan;
-            border: 1px solid rgba(0, 255, 255, 0.5);
-            flex-shrink: 0;
-        }
-
-        .message.user .avatar {
-            background: #2a3f6e;
-            color: gold;
-        }
-
-        .message .bubble {
-            background: rgba(20, 40, 65, 0.9);
-            padding: 12px 18px;
-            border-radius: 22px 22px 22px 6px;
-            max-width: 80%;
-            border: 1px solid rgba(0, 255, 255, 0.25);
-            color: #f0faff;
-            font-size: 0.98rem;
-            word-break: break-word;
-        }
-
-        .message.user .bubble {
-            background: #0f3460;
-            border-radius: 22px 22px 6px 22px;
-            border-color: rgba(255, 215, 0, 0.4);
-        }
-
-        .suggestions-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 16px;
-            background: rgba(2, 12, 27, 0.95);
-            border-top: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        .suggestion-chip {
-            background: rgba(0, 255, 255, 0.08);
-            border: 1.2px solid rgba(0, 255, 255, 0.35);
-            border-radius: 40px;
-            padding: 10px 20px;
-            font-size: 0.85rem;
-            color: #d4f4ff;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .suggestion-chip:hover {
-            background: rgba(0, 255, 255, 0.25);
-            box-shadow: 0 0 20px cyan;
-            border-color: cyan;
-            color: white;
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 16px;
-            background: rgba(2, 12, 27, 0.95);
-            gap: 12px;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1.5px solid rgba(0, 255, 255, 0.3);
-            border-radius: 60px;
-            padding: 14px 20px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .chat-input-area button {
-            background: linear-gradient(145deg, #0072ff, #00c6ff);
-            border: none;
-            border-radius: 50%;
-            width: 54px;
-            height: 54px;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-            box-shadow: 0 0 20px cyan;
-            flex-shrink: 0;
-        }
-
-        /* On mobile, chatbot can still be used, but no open/close buttons forced. Always accessible via toggle */
-        @media (max-width: 768px) {
-            .chatbot-wrapper {
-                bottom: 20px;
-                right: 20px;
-                width: calc(100vw - 40px);
-                max-width: 450px;
-            }
-        }
-
-        /* ----- MOBILE ACTIONS – COMPLETELY REMOVED (NO OPEN AI BUTTON) ----- */
-        .mobile-actions,
-        .mobile-actions-container,
-        .mobile-btn {
-            display: none !important;
-        }
-
         /* ----- HOME – SEAN BENEDICT fully visible, epic glow ----- */
         .home-content h1 {
             font-size: clamp(2.5rem, 10vw, 4.8rem);
@@ -880,11 +672,11 @@
             visibility: visible;
         }
 
-        /* ----- FADE ANIMATIONS ----- */
+        /* ----- FADE ANIMATIONS – SMOOTHER ----- */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .fade-in.visible {
@@ -893,27 +685,58 @@
         }
 
         .delay-1 {
-            transition-delay: 0.1s;
+            transition-delay: 0.15s;
         }
 
         .delay-2 {
-            transition-delay: 0.2s;
+            transition-delay: 0.25s;
         }
 
         .delay-3 {
-            transition-delay: 0.3s;
+            transition-delay: 0.35s;
         }
 
         .delay-4 {
-            transition-delay: 0.4s;
+            transition-delay: 0.45s;
         }
 
         .delay-5 {
-            transition-delay: 0.5s;
+            transition-delay: 0.55s;
         }
 
         .delay-6 {
-            transition-delay: 0.6s;
+            transition-delay: 0.65s;
+        }
+
+        /* ----- SMOOTH SCROLL ENHANCEMENTS ----- */
+        .home-content,
+        .about-text,
+        .skill-category,
+        .project-card,
+        .value-card {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.3s ease, 
+                        box-shadow 0.4s ease;
+        }
+
+        .project-card {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        border-color 0.3s ease, 
+                        box-shadow 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .value-card {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        border-color 0.3s ease, 
+                        box-shadow 0.4s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-12px) scale(1.02);
         }
 
         /* ----- LOADER ----- */
@@ -928,7 +751,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: 0.5s;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
         .loading-screen.hidden {
@@ -942,14 +765,13 @@
             border: 5px solid rgba(0, 255, 255, 0.1);
             border-top: 5px solid cyan;
             border-radius: 50%;
-            animation: spin 1s infinite linear;
+            animation: spin 1s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         @keyframes spin {
             0% {
                 transform: rotate(0);
             }
-
             100% {
                 transform: rotate(360deg);
             }
@@ -989,48 +811,13 @@
         </nav>
     </header>
 
-    <!-- AI CHATBOT – always visible on desktop, toggleable, no external open button -->
-    <div class="chatbot-wrapper" id="chatbotWidget">
-        <div class="chatbot-header" id="chatbotHeader">
-            <h3><i class="fas fa-robot"></i> SeanAI · Assistant</h3>
-            <button class="chatbot-toggle-btn" id="chatbotToggleBtn">
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-        <div class="chatbot-body" id="chatbotBody">
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot">
-                    <div class="avatar"><i class="fas fa-brain"></i></div>
-                    <div class="bubble">⚡ I'm Sean's AI twin. Ask about projects, skills, or custom ideas. Try a chip
-                        below!</div>
-                </div>
-            </div>
-            <div class="suggestions-container">
-                <span class="suggestion-chip" data-question="What projects has Sean done?"><i
-                        class="fas fa-folder-open"></i> Projects</span>
-                <span class="suggestion-chip" data-question="Tell me about your skills"><i class="fas fa-cogs"></i>
-                    Skills</span>
-                <span class="suggestion-chip" data-question="What certifications does Sean have?"><i
-                        class="fas fa-certificate"></i> Certs</span>
-                <span class="suggestion-chip" data-question="I have a custom project idea"><i
-                        class="fas fa-lightbulb"></i> Custom idea</span>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Message SeanAI..." autocomplete="off">
-                <button id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- NO MOBILE ACTIONS – COMPLETELY REMOVED (no Open AI / Close AI buttons) -->
-
     <!-- HOME – Sean Benedict with maximum visibility -->
     <section class="home" id="home">
         <div class="container">
             <div class="home-content" style="text-align: center; padding: 50px 30px; border-radius: 40px;">
                 <div class="fade-in">
                     <img src="sean.jpg" alt="Sean Benedict"
-                        style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 5px solid cyan; box-shadow: 0 0 60px cyan;">
+                        style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 5px solid cyan; box-shadow: 0 0 60px cyan; transition: transform 0.5s ease, box-shadow 0.5s ease;">
                 </div>
                 <h3 class="fade-in delay-1 greeting-tag" style="margin-top: 30px; font-size: 1.6rem;">Greetings, I am
                 </h3>
@@ -1044,16 +831,35 @@
                 <div class="social-icons fade-in delay-5"
                     style="display: flex; gap: 35px; justify-content: center; margin: 40px 0;">
                     <a href="https://www.instagram.com/its__6174/" target="_blank"
-                        style="color: white; font-size: 36px;"><i class="fab fa-instagram"></i></a>
+                        style="color: white; font-size: 36px; transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; display: inline-block;"
+                        onmouseover="this.style.transform='scale(1.2)'; this.style.color='cyan'; this.style.textShadow='0 0 20px cyan'"
+                        onmouseout="this.style.transform='scale(1)'; this.style.color='white'; this.style.textShadow='none'">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                     <a href="https://github.com/seanRevilla213" target="_blank"
-                        style="color: white; font-size: 36px;"><i class="fab fa-github"></i></a>
+                        style="color: white; font-size: 36px; transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; display: inline-block;"
+                        onmouseover="this.style.transform='scale(1.2)'; this.style.color='cyan'; this.style.textShadow='0 0 20px cyan'"
+                        onmouseout="this.style.transform='scale(1)'; this.style.color='white'; this.style.textShadow='none'">
+                        <i class="fab fa-github"></i>
+                    </a>
                     <a href="https://www.linkedin.com/in/sean-benedict-revilla-b04169345/" target="_blank"
-                        style="color: white; font-size: 36px;"><i class="fab fa-linkedin"></i></a>
-                    <a href="mailto:Reyiverson2005@gmail.com" target="_blank" style="color: white; font-size: 36px;"><i
-                            class="fas fa-envelope"></i></a>
+                        style="color: white; font-size: 36px; transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; display: inline-block;"
+                        onmouseover="this.style.transform='scale(1.2)'; this.style.color='cyan'; this.style.textShadow='0 0 20px cyan'"
+                        onmouseout="this.style.transform='scale(1)'; this.style.color='white'; this.style.textShadow='none'">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:Reyiverson2005@gmail.com" target="_blank"
+                        style="color: white; font-size: 36px; transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; display: inline-block;"
+                        onmouseover="this.style.transform='scale(1.2)'; this.style.color='cyan'; this.style.textShadow='0 0 20px cyan'"
+                        onmouseout="this.style.transform='scale(1)'; this.style.color='white'; this.style.textShadow='none'">
+                        <i class="fas fa-envelope"></i>
+                    </a>
                 </div>
-                <a href="#about" class="btn fade-in delay-5" style="padding: 16px 40px;">Explore Journey <i
-                        class="fas fa-arrow-right"></i></a>
+                <a href="#about" class="btn fade-in delay-5" style="padding: 16px 40px; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;"
+                   onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                   onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                   Explore Journey <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -1067,13 +873,9 @@
                 <h4 style="color: cyan; font-size: 1.9rem; margin-bottom: 20px;">Web & Software Architect</h4>
                 <p style="font-size: 1.25rem; line-height: 1.7;">As a passionate Junior Developer, I see code as an art
                     form and technology as a canvas. My journey in development is driven by curiosity and a desire to
-                    create meaningful digital experiences that solve real-world problems, My approach combines technical
+                    create meaningful digital experiences that solve real-world problems. My approach combines technical
                     precision with creative thinking, ensuring that every project not only functions flawlessly but also
-                    delivers an exceptional user experience</p>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 35px;">
-                    <button class="btn btn-secondary" id="aboutChatTrigger"><i class="fas fa-comment-dots"></i> Chat
-                        with AI</button>
-                </div>
+                    delivers an exceptional user experience.</p>
             </div>
         </div>
     </section>
@@ -1130,9 +932,13 @@
                     <div class="project-content">
                         <h3>Hotel Reservation</h3>
                         <p>Java, MySQL, Swing – CRM.</p>
-                        <div><span class="tech-tag">Java</span><span class="tech-tag">MySQL</span></div><a
-                            href="https://github.com/seanRevilla213/Hotel-Reservation-System" class="btn"
-                            style="margin-top:18px;">Explore Project</a>
+                        <div><span class="tech-tag">Java</span><span class="tech-tag">MySQL</span></div>
+                        <a href="https://github.com/seanRevilla213/Hotel-Reservation-System" class="btn"
+                           style="margin-top:18px; transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                           Explore Project
+                        </a>
                     </div>
                 </div>
                 <div class="project-card fade-in delay-2">
@@ -1141,9 +947,13 @@
                     <div class="project-content">
                         <h3>Hotel + Inventory</h3>
                         <p>Integrated stock & rooms.</p>
-                        <div><span class="tech-tag">Java</span><span class="tech-tag">MySQL</span></div><a
-                            href="https://github.com/seanRevilla213/Hotel-Reservation-System-with-integrated-Inventory-System"
-                            class="btn">Explore Project</a>
+                        <div><span class="tech-tag">Java</span><span class="tech-tag">MySQL</span></div>
+                        <a href="https://github.com/seanRevilla213/Hotel-Reservation-System-with-integrated-Inventory-System"
+                            class="btn" style="transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                            Explore Project
+                        </a>
                     </div>
                 </div>
                 <div class="project-card fade-in delay-3">
@@ -1151,36 +961,52 @@
                     <div class="project-content">
                         <h3>QuickSean Fast Food</h3>
                         <p>PHP/MySQL ordering.</p>
-                        <div><span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span></div><a
-                            href="https://github.com/seanRevilla213/QuickSean-Fast-Food-Restaurant-System"
-                            class="btn">Explore Customize Project</a>
+                        <div><span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span></div>
+                        <a href="https://github.com/seanRevilla213/QuickSean-Fast-Food-Restaurant-System"
+                            class="btn" style="transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                            Explore Project
+                        </a>
                     </div>
                 </div>
                 <div class="project-card fade-in delay-4">
-                    <div class="project-img"><img src="incognito.png" alt="Stealth AI"></div>
+                    <div class="project-img"><img src="LearnGate.jpeg" alt="Stealth AI"></div>
                     <div class="project-content">
-                        <h3>Unknown</h3>
-                        <p>?</p>
-                        <div><span class="tech-tag">Python</span><span class="tech-tag">?</span></div><a
-                            href="#" class="btn">Explore Customize Project</a>
+                        <h3>LearnGate Portal</h3>
+                        <p>School Portal</p>
+                        <div><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript (ES6+)</span><span class="tech-tag">Firebase</span></div>
+                        <a href="https://learngate-portal.firebaseapp.com" class="btn" style="transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                           Customize Project
+                        </a>
                     </div>
                 </div>
                 <div class="project-card fade-in delay-5">
                     <div class="project-img"><img src="incognito.png" alt="Neural Playground"></div>
                     <div class="project-content">
-                        <h3>Unknown</h3>
-                        <p>?</p>
-                        <div><span class="tech-tag">React</span><span class="tech-tag">?</span></div><a href="#"
-                            class="btn">Explore Customize Project</a>
+                        <h3>Neural Playground</h3>
+                        <p>React/Node.js App</p>
+                        <div><span class="tech-tag">React</span><span class="tech-tag">Node.js</span></div>
+                        <a href="#" class="btn" style="transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                           Coming Soon
+                        </a>
                     </div>
                 </div>
                 <div class="project-card fade-in delay-6">
                     <div class="project-img"><img src="incognito.png" alt="Generative UI"></div>
                     <div class="project-content">
-                        <h3>Unknown</h3>
-                        <p>?</p>
-                        <div><span class="tech-tag">?</span><span class="tech-tag">?</span></div><a href="#"
-                            class="btn">Explore Customize Project</a>
+                        <h3>Generative UI</h3>
+                        <p>AI-Powered Design System</p>
+                        <div><span class="tech-tag">Python</span><span class="tech-tag">AI</span></div>
+                        <a href="#" class="btn" style="transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 0 30px gold'"
+                           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(255, 215, 0, 0.3)'">
+                           Coming Soon
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1196,21 +1022,28 @@
                     <div class="cert-slide" id="certSlide">
                         <div class="cert-frame" id="certImageFrame">
                             <img id="certDisplayImage" src="aws-cert.png" alt="Certification"
-                                style="max-width:100%; max-height:350px;">
+                                style="max-width:100%; max-height:350px; transition: opacity 0.3s ease;">
                         </div>
                         <div class="cert-meta" id="certMeta">
                             <h4 id="certTitle">?</h4>
-                            <p id="certIssuer">Issued Dec 2026 · unknown</p>
+                            <p id="certIssuer">Issued Dec 2024 · unknown</p>
                         </div>
                     </div>
                     <div class="cert-controls">
-                        <button class="cert-nav-btn" id="prevCertBtn"><i class="fas fa-chevron-circle-left"></i>
-                            PREV</button>
+                        <button class="cert-nav-btn" id="prevCertBtn"
+                                style="transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;"
+                                onmouseover="this.style.transform='scale(1.05)'; this.style.background='rgba(0, 255, 255, 0.4)'; this.style.boxShadow='0 0 40px cyan'"
+                                onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0, 255, 255, 0.15)'; this.style.boxShadow='none'">
+                            <i class="fas fa-chevron-circle-left"></i> PREV
+                        </button>
                         <span class="cert-indicator" id="certCounter"
-                            style="color:white; font-size:1.4rem; background:rgba(0,0,0,0.4); padding:10px 25px; border-radius:60px;">1
-                            / 3</span>
-                        <button class="cert-nav-btn" id="nextCertBtn">NEXT <i
-                                class="fas fa-chevron-circle-right"></i></button>
+                            style="color:white; font-size:1.4rem; background:rgba(0,0,0,0.4); padding:10px 25px; border-radius:60px;">1 / 3</span>
+                        <button class="cert-nav-btn" id="nextCertBtn"
+                                style="transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;"
+                                onmouseover="this.style.transform='scale(1.05)'; this.style.background='rgba(0, 255, 255, 0.4)'; this.style.boxShadow='0 0 40px cyan'"
+                                onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0, 255, 255, 0.15)'; this.style.boxShadow='none'">
+                            NEXT <i class="fas fa-chevron-circle-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1251,13 +1084,18 @@
         <div class="container">
             <div class="footer-copyright">
                 <span>© 2025 Sean Benedict Revilla</span>
-                <i class="fas fa-robot"></i>
+                <i class="fas fa-microchip"></i>
                 <span>AI‑infused portfolio</span>
             </div>
         </div>
     </footer>
 
-    <a href="#home" class="back-to-top" id="back-to-top"><i class="fas fa-chevron-up"></i></a>
+    <a href="#home" class="back-to-top" id="back-to-top"
+       style="transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.3s ease;"
+       onmouseover="this.style.transform='scale(1.1)'; this.style.background='#ffaa00'"
+       onmouseout="this.style.transform='scale(1)'; this.style.background='cyan'">
+       <i class="fas fa-chevron-up"></i>
+    </a>
 
     <script>
         // ================== FIREBASE ==================
@@ -1301,7 +1139,7 @@
             }, 120);
 
             // Outline expansion on interactive elements
-            if (e.target.closest('a, button, .suggestion-chip, .cert-nav-btn, .btn')) {
+            if (e.target.closest('a, button, .suggestion-chip, .cert-nav-btn, .btn, .social-icons a, .back-to-top')) {
                 cursorOutline.classList.add('active');
             } else {
                 cursorOutline.classList.remove('active');
@@ -1408,6 +1246,13 @@
                 typeSpeed: 70, backSpeed: 55, loop: true
             });
             checkScroll();
+            
+            // Smooth initial fade in for home section
+            setTimeout(() => {
+                document.querySelectorAll('.home .fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 100);
         });
 
         // Mobile menu toggle
@@ -1424,87 +1269,11 @@
             document.body.style.overflow = 'auto';
         }));
 
-        // ========== CHATBOT LOGIC – no mobile open/close buttons ==========
-        const chatbotBody = document.getElementById('chatbotBody');
-        const chatToggle = document.getElementById('chatbotToggleBtn');
-        const chatHeader = document.getElementById('chatbotHeader');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.getElementById('sendChatBtn');
-        const chatbotWidget = document.getElementById('chatbotWidget');
-
-        function toggleChatbot(e) {
-            e.stopPropagation();
-            chatbotBody.classList.toggle('collapsed');
-            let icon = chatToggle.querySelector('i');
-            if (chatbotBody.classList.contains('collapsed')) {
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-            } else {
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-            }
-        }
-        chatHeader.addEventListener('click', toggleChatbot);
-        chatToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleChatbot(e); });
-
-        // Expand chatbot and focus when "Chat with AI" is clicked
-        function expandAndFocus() {
-            if (chatbotBody.classList.contains('collapsed')) {
-                chatbotBody.classList.remove('collapsed');
-                let icon = chatToggle.querySelector('i');
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-            }
-            chatInput.focus();
-        }
-
-        document.getElementById('aboutChatTrigger')?.addEventListener('click', expandAndFocus);
-
-        // Chat functions
-        function addMessage(text, isUser = false) {
-            let msgDiv = document.createElement('div');
-            msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-            let avatar = document.createElement('div');
-            avatar.className = 'avatar';
-            avatar.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
-            let bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            bubble.textContent = text;
-            msgDiv.appendChild(avatar);
-            msgDiv.appendChild(bubble);
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function getBotReply(userMsg) {
-            let msg = userMsg.toLowerCase();
-            if (msg.includes('project')) return "Sean has built hotel systems, food ordering apps, and now explores AI agents. Ask for details!";
-            if (msg.includes('skill')) return "He's skilled in Java, PHP, JS, Python, and mastering LLM integration.";
-            if (msg.includes('cert')) return "Sean holds AWS Practitioner, AI For Everyone, and MySQL Specialist certs. Use the gallery above!";
-            if (msg.includes('custom') || msg.includes('idea')) return "Awesome! Briefly describe your custom project idea. Sean will get back to you.";
-            if (msg.includes('hello') || msg.includes('hi')) return "Hey! I'm Sean's AI. Ask about projects, skills, certifications, or custom ideas.";
-            return "I'm learning! Try: projects, skills, certifications, or custom idea.";
-        }
-
-        function handleChatSend(textOverride) {
-            let text = textOverride || chatInput.value.trim();
-            if (!text) return;
-            addMessage(text, true);
-            chatInput.value = '';
-            setTimeout(() => { addMessage(getBotReply(text), false); }, 400);
-        }
-        sendBtn.addEventListener('click', () => handleChatSend());
-        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChatSend(); });
-        document.querySelectorAll('.suggestion-chip').forEach(chip => {
-            chip.addEventListener('click', function () { handleChatSend(this.getAttribute('data-question')); });
-        });
-
         // ========== CERTIFICATION GALLERY ==========
         const certsData = [
-            { title: "", issuer: "Issued Dec 2024 · ", image: "aws-cert.png" },
-            { title: "", issuer: "Issued Jan 2025 · ", image: "ai-cert.png" },
-            { title: "", issuer: "Issued Nov 2024 · ", image: "sql-cert.png" }
+            { title: "AWS Certified Cloud Practitioner", issuer: "Issued Dec 2024 · Amazon Web Services", image: "aws-cert.png" },
+            { title: "AI For Everyone", issuer: "Issued Jan 2025 · DeepLearning.AI", image: "ai-cert.png" },
+            { title: "MySQL Specialist", issuer: "Issued Nov 2024 · Oracle", image: "sql-cert.png" }
         ];
         const FALLBACK_CERT_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%230a1f2f'/%3E%3Ccircle cx='200' cy='120' r='40' fill='%2300ffff' opacity='0.2'/%3E%3Ctext x='120' y='170' font-family='Arial' font-size='24' fill='%23FFD700'%3E%3Ctspan x='120' dy='0'%3ECertificate%3C/tspan%3E%3Ctext x='120' y='210' font-size='18' fill='%23ffffff'%3E%3Ctspan x='120' dy='0'%3EAchievement%3C/tspan%3E%3C/text%3E%3C/svg%3E";
         let currentCertIndex = 0;
@@ -1514,8 +1283,14 @@
         const certCounterEl = document.getElementById('certCounter');
 
         function setCertImage(src) {
-            certDisplayImg.onerror = function () { this.src = FALLBACK_CERT_IMAGE; this.onerror = null; };
+            certDisplayImg.style.opacity = '0.5';
+            certDisplayImg.onerror = function () { 
+                this.src = FALLBACK_CERT_IMAGE; 
+                this.onerror = null;
+                setTimeout(() => { certDisplayImg.style.opacity = '1'; }, 50);
+            };
             certDisplayImg.src = src;
+            setTimeout(() => { certDisplayImg.style.opacity = '1'; }, 100);
         }
         function updateCertDisplay(index) {
             const cert = certsData[index];
@@ -1550,17 +1325,39 @@
 
         function checkScroll() {
             fadeElements.forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('visible');
+                if (el.getBoundingClientRect().top < window.innerHeight - 80) {
+                    el.classList.add('visible');
+                }
             });
             animateSkillBars();
-            if (window.scrollY > 300) backToTop.classList.add('active'); else backToTop.classList.remove('active');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
         }
-        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('scroll', checkScroll, { passive: true });
         window.addEventListener('resize', checkScroll);
-        window.addEventListener('load', function () { setTimeout(checkScroll, 300); });
+        window.addEventListener('load', function () { 
+            setTimeout(checkScroll, 300); 
+        });
 
         // Touch device cursor disable
         if ('ontouchstart' in window) document.body.classList.add('touch-device');
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
     <style>
         .touch-device .cursor-dot,
@@ -1572,17 +1369,61 @@
             cursor: auto;
         }
 
-        .chatbot-body.collapsed {
-            height: 0;
-            opacity: 0;
-            padding: 0;
-        }
-
         .cert-indicator {
             background: rgba(0, 0, 0, 0.5);
             padding: 10px 25px;
             border-radius: 60px;
             border: 1px solid cyan;
+        }
+
+        /* Smooth image transitions */
+        .project-img img {
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .project-card:hover .project-img img {
+            transform: scale(1.08);
+        }
+
+        /* Smooth button hover */
+        .btn {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.3s ease,
+                        background 0.3s ease;
+        }
+
+        /* Smooth social icons */
+        .social-icons a {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        color 0.2s ease,
+                        text-shadow 0.3s ease;
+        }
+
+        /* Smooth back to top */
+        .back-to-top {
+            transition: opacity 0.3s ease, 
+                        visibility 0.3s ease, 
+                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        background 0.3s ease;
+        }
+
+        /* Smooth cursor outline */
+        .cursor-outline {
+            transition: width 0.2s, height 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        /* Smooth navbar */
+        .navbar {
+            transition: right 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .navbar a {
+            transition: all 0.45s ease 0.1s;
+        }
+
+        /* Smooth loading screen */
+        .loading-screen {
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
     </style>
 </body>
