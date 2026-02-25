@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnGate Portal - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f94144;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --bg-gradient-start: #f5f7ff;
+            --bg-gradient-end: #eef1ff;
+            --card-bg: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        body.dark-mode {
+            --bg-gradient-start: #1a1e2b;
+            --bg-gradient-end: #2d3349;
+            --card-bg: #2d3748;
+            --text-primary: #f7fafc;
+            --text-secondary: #cbd5e0;
+            --border-color: #4a5568;
+            --light-gray: #4a5568;
+            --gray: #a0aec0;
+            --light: #2d3748;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .header,
+        body.dark-mode .main-content,
+        body.dark-mode .program-card,
+        body.dark-mode .user-dropdown,
+        body.dark-mode .services-full-page {
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        body.dark-mode .user-dropdown-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        body.dark-mode .user-dropdown-actions {
+            background: var(--light);
+            border-top-color: var(--border-color);
+        }
+
+        body.dark-mode .info-value,
+        body.dark-mode .logo-text h1,
+        body.dark-mode .welcome-text h2 {
+            color: var(--text-primary);
+        }
+
+        body.dark-mode .info-label {
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            border-left: 6px solid var(--primary);
+            position: relative;
+            overflow: visible;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 30%, rgba(67, 97, 238, 0.05) 100%);
+            z-index: 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .logo-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .logo-text h1 {
+            color: var(--dark);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-text p {
+            color: var(--gray);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        /* User Profile Area with Toggle */
+        .user-profile-area {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .welcome-text {
+            text-align: right;
+            padding-right: 25px;
+            border-right: 2px solid var(--light-gray);
+        }
+        
+        .welcome-text h2 {
+            color: var(--dark);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        
+        .welcome-text p {
+            color: var(--gray);
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        
+        .user-toggle {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+            transition: var(--transition);
+            border: 3px solid white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .user-avatar:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .user-avatar i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .user-avatar::after {
+            content: '\f0d7';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: white;
+            color: var(--primary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* User Dropdown Menu */
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            width: 400px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+            overflow: hidden;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .user-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .user-dropdown-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        
+        .user-dropdown-avatar {
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 4px solid white;
+        }
+        
+        .user-dropdown-avatar i {
+            font-size: 2.8rem;
+        }
+        
+        .user-dropdown-header h3 {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .user-dropdown-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .user-dropdown-info {
+            padding: 25px;
+        }
+        
+        .user-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .user-info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .info-value {
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: right;
+            max-width: 60%;
+        }
+        
+        .user-dropdown-actions {
+            padding: 20px 25px;
+            background: var(--light);
+            display: flex;
+            gap: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .dropdown-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: white;
+            color: var(--dark);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 1rem;
+        }
+        
+        .dropdown-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .dropdown-btn.logout {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .dropdown-btn.logout:hover {
+            background: #d32f2f;
+        }
+        
+        /* Dashboard Content */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .section-header h2 {
+            color: var(--dark);
+            font-size: 2.2rem;
+            font-weight: 800;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .section-header h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 80%;
+            width: 6px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+        
+        /* Program Cards */
+        .program-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--light-gray);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .card-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .card-badge {
+            background: var(--light);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .card-content h3 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .card-content p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+        }
+        
+        .card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        
+        .card-link:hover {
+            color: var(--secondary);
+            gap: 15px;
+        }
+        
+        /* Student Services Card Enhancements (compact inline) */
+        .services-panel {
+            margin-top: 20px;
+            border-top: 1px solid var(--light-gray);
+            padding-top: 20px;
+        }
+
+        .live-calendar {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day-name {
+            font-weight: 700;
+            color: var(--gray);
+            padding: 5px;
+        }
+
+        .calendar-date {
+            padding: 8px;
+            border-radius: 8px;
+            cursor: default;
+            transition: var(--transition);
+        }
+
+        .calendar-date.today {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+        }
+
+        .text-format-tools {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .format-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .format-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: var(--dark);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            flex: 1 0 auto;
+        }
+
+        .format-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .format-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .theme-settings {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .theme-label {
+            font-weight: 700;
+            color: var(--gray);
+        }
+
+        .theme-select, .color-input {
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .color-input {
+            width: 60px;
+            height: 40px;
+            padding: 2px;
+        }
+
+        .bg-preview {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            border: 2px solid var(--border-color);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: var(--gray);
+            font-size: 1rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo i {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .footer-logo span {
+            font-weight: 800;
+            color: var(--dark);
+            font-size: 1.3rem;
+        }
+        
+        /* Full Page Services View (hidden by default) */
+        .services-full-page {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            margin-top: 20px;
+            box-shadow: var(--card-shadow);
+            display: none;
+        }
+        
+        .services-full-page.active {
+            display: block;
+        }
+        
+        .back-to-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 10px 20px;
+            background: var(--light);
+            border-radius: 30px;
+            color: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+        
+        .back-to-dashboard:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .services-full-page .services-panel {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 20px;
+        }
+        
+        .services-full-page .live-calendar,
+        .services-full-page .text-format-tools,
+        .services-full-page .theme-settings {
+            background: transparent;
+            padding-left: 0;
+            padding-right: 0;
+            border: none;
+        }
+        
+        .services-full-page .live-calendar {
+            margin-top: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-area {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .user-profile-area {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .welcome-text {
+                text-align: center;
+                border-right: none;
+                padding-right: 0;
+                border-bottom: 2px solid var(--light-gray);
+                padding-bottom: 20px;
+                width: 100%;
+            }
+            
+            .program-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-dropdown {
+                width: calc(100vw - 40px);
+                right: 0;
+                left: 0;
+                margin: 0 auto;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .section-header h2 {
+                padding-left: 0;
+            }
+            
+            .section-header h2::before {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .welcome-text h2 {
+                font-size: 1.5rem;
+            }
+            
+            .user-avatar {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .program-card {
+                padding: 20px;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--primary-dark), var(--secondary));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo" id="logo-home">
+                        <div class="logo-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h1>LearnGate Portal</h1>
+                            <p>Student Dashboard - Personalized Learning Management</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-profile-area">
+                    <div class="welcome-text">
+                        <h2 id="welcome-title">Welcome back!</h2>
+                        <p>Access your learning resources</p>
+                    </div>
+                    
+                    <div class="user-toggle" id="user-toggle">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        
+                        <!-- User Dropdown Menu -->
+                        <div class="user-dropdown" id="user-dropdown">
+                            <div class="user-dropdown-header">
+                                <div class="user-dropdown-avatar">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <h3 id="dropdown-name">Loading...</h3>
+                                <p id="dropdown-program">Loading...</p>
+                            </div>
+                            
+                            <div class="user-dropdown-info">
+                                <div class="user-info-item">
+                                    <span class="info-label">Student ID:</span>
+                                    <span class="info-value" id="dropdown-id">Loading...</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <span class="info-label">Program:</span>
+                                    <span class="info-value" id="dropdown-program-name">Loading...</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <span class="info-label">Academic Year:</span>
+                                    <span class="info-value" id="dropdown-year">Loading...</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <span class="info-label">Status:</span>
+                                    <span class="info-value" id="dropdown-status">Loading...</span>
+                                </div>
+                                <div class="user-info-item">
+                                    <span class="info-label">Last Login:</span>
+                                    <span class="info-value" id="dropdown-last-login">Loading...</span>
+                                </div>
+                            </div>
+                            
+                            <div class="user-dropdown-actions">
+                                <button class="dropdown-btn" id="profile-btn" onclick="openStudentProfile()">
+                                    <i class="fas fa-user-cog"></i> My Profile
+                                </button>
+                                <button class="dropdown-btn logout" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard">
+            <main class="main-content" id="main-dashboard">
+                <div class="section-header">
+                    <h2 id="current-program-title">Your Program Dashboard</h2>
+                </div>
+                
+                <!-- Program Cards -->
+                <div class="program-cards">
+                    <div class="program-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="card-badge">Academic</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Student Details & Records</h3>
+                            <p>Access your complete academic profile, including enrollment status, academic records, official transcripts, and advisor information. View your course history, grades, and program requirements.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="Student Details.html" class="card-link" id="view-academic-details">View Academic Details <i class="fas fa-arrow-right"></i></a>
+                            <span style="color: #4cc9f0; font-weight: 700;">Updated Today</span>
+                        </div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="card-badge">Financial</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Finance Portal</h3>
+                            <p>Manage your tuition fees, view payment history, apply for scholarships, and check financial aid status. Access billing statements, payment plans, and financial resources for your program.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="Finance.html" class="card-link" id="finance-portal-link">Access Finance Portal <i class="fas fa-arrow-right"></i></a>
+                            <span style="color: #4cc9f0; font-weight: 700;">Updated Today</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Student Services Card (Enhanced with inline tools + link to full page) -->
+                    <div class="program-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-concierge-bell"></i>
+                            </div>
+                            <div class="card-badge">Services</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Student Services</h3>
+                            <p>Real-time calendar, text formatting, and theme settings. Customize your experience below or click "View All Services" for expanded view.</p>
+                        </div>
+                        
+                        <!-- Compact Services Panel (inline in card) -->
+                        <div class="services-panel">
+                            <!-- Live Calendar -->
+                            <div class="live-calendar">
+                                <div class="calendar-header">
+                                    <span id="calendar-month-year"></span>
+                                    <i class="fas fa-calendar-alt" style="color: var(--primary);"></i>
+                                </div>
+                                <div class="calendar-grid" id="calendar-days">
+                                    <!-- Filled by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Text Format Tools -->
+                            <div class="text-format-tools">
+                                <div class="format-toolbar">
+                                    <button class="format-btn" id="uppercase-btn">UPPERCASE</button>
+                                    <button class="format-btn" id="lowercase-btn">lowercase</button>
+                                    <button class="format-btn" id="capitalize-btn">Capitalize</button>
+                                </div>
+                                <input type="text" class="format-input" id="text-input" placeholder="Type something and format...">
+                            </div>
+
+                            <!-- Theme Settings -->
+                            <div class="theme-settings">
+                                <div class="theme-row">
+                                    <span class="theme-label">Mode:</span>
+                                    <select class="theme-select" id="theme-mode">
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                    </select>
+                                </div>
+                                <div class="theme-row">
+                                    <span class="theme-label">Color Theme:</span>
+                                    <input type="color" class="color-input" id="color-theme" value="#4361ee">
+                                </div>
+                                <div class="theme-row">
+                                    <span class="theme-label">Background:</span>
+                                    <select class="theme-select" id="bg-theme">
+                                        <option value="gradient1">Default Gradient</option>
+                                        <option value="gradient2">Ocean Breeze</option>
+                                        <option value="gradient3">Sunset</option>
+                                        <option value="solid1">Light Gray</option>
+                                        <option value="solid2">Midnight</option>
+                                    </select>
+                                    <span class="bg-preview" id="bg-preview"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer" style="margin-top: 20px;">
+                            <span class="card-link" id="view-all-services-link"><i class="fas fa-expand-alt"></i> View All Services <i class="fas fa-arrow-right"></i></span>
+                            <span style="color: #4cc9f0; font-weight: 700;">24/7 Access</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Card Row (unchanged) -->
+                <div class="program-cards">
+                    <div class="program-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="card-badge">Schedule</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Course Schedule</h3>
+                            <p>View your current class schedule, exam dates, and academic calendar. Access virtual classrooms, lecture materials, and assignment deadlines for all your enrolled courses.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="card-link" id="schedule-link">View Schedule <i class="fas fa-arrow-right"></i></a>
+                            <span style="color: #4cc9f0; font-weight: 700;">Current Term</span>
+                        </div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="card-badge">Learning</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Learning Resources</h3>
+                            <p>Access course materials, lecture notes, reading lists, and digital library resources. Connect with online learning platforms, research databases, and academic tools.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="card-link" id="resources-link">Access Resources <i class="fas fa-arrow-right"></i></a>
+                            <span style="color: #4cc9f0; font-weight: 700;">Always Available</span>
+                        </div>
+                    </div>
+                    
+                    <div class="program-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="card-badge">Community</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Campus Community</h3>
+                            <p>Connect with fellow students, join clubs and organizations, participate in campus events, and access student forums. Engage with your academic community and campus life.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="card-link" id="community-link">Join Community <i class="fas fa-arrow-right"></i></a>
+                            <span style="color: #4cc9f0; font-weight: 700;">Active Members</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Full Page Services View (hidden by default) -->
+            <div class="services-full-page" id="services-full-page">
+                <div class="back-to-dashboard" id="back-to-dashboard">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </div>
+                <div class="section-header">
+                    <h2>Student Services - Full View</h2>
+                </div>
+                <div class="services-panel">
+                    <!-- Live Calendar -->
+                    <div class="live-calendar">
+                        <div class="calendar-header">
+                            <span id="full-calendar-month-year"></span>
+                            <i class="fas fa-calendar-alt" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="calendar-grid" id="full-calendar-days">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Text Format Tools -->
+                    <div class="text-format-tools">
+                        <div class="format-toolbar">
+                            <button class="format-btn" id="full-uppercase-btn">UPPERCASE</button>
+                            <button class="format-btn" id="full-lowercase-btn">lowercase</button>
+                            <button class="format-btn" id="full-capitalize-btn">Capitalize</button>
+                        </div>
+                        <input type="text" class="format-input" id="full-text-input" placeholder="Type something and format...">
+                    </div>
+
+                    <!-- Theme Settings -->
+                    <div class="theme-settings">
+                        <div class="theme-row">
+                            <span class="theme-label">Mode:</span>
+                            <select class="theme-select" id="full-theme-mode">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                        </div>
+                        <div class="theme-row">
+                            <span class="theme-label">Color Theme:</span>
+                            <input type="color" class="color-input" id="full-color-theme" value="#4361ee">
+                        </div>
+                        <div class="theme-row">
+                            <span class="theme-label">Background:</span>
+                            <select class="theme-select" id="full-bg-theme">
+                                <option value="gradient1">Default Gradient</option>
+                                <option value="gradient2">Ocean Breeze</option>
+                                <option value="gradient3">Sunset</option>
+                                <option value="solid1">Light Gray</option>
+                                <option value="solid2">Midnight</option>
+                            </select>
+                            <span class="bg-preview" id="full-bg-preview"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>LearnGate Portal</span>
+            </div>
+            <p>© 2024 LearnGate Educational Portal. Secure Student Dashboard System</p>
+            <p>All academic data is managed through your enrolled program and updates in real-time.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Course data mapping
+        const courseCodes = {
+            '09': 'Bachelor of Science in Information Technology',
+            '10': 'Bachelor of Science in Computer Science',
+            '11': 'Bachelor of Science in Nursing',
+            '12': 'Bachelor of Elementary Education',
+            '13': 'Bachelor of Secondary Education',
+            '14': 'Bachelor of Science in Accountancy',
+            '15': 'Bachelor of Science in Civil Engineering',
+            '16': 'Bachelor of Science in Mechanical Engineering',
+            '17': 'Bachelor of Science in Electrical Engineering',
+            '18': 'Bachelor of Science in Business Administration',
+            '19': 'Bachelor of Science in Psychology',
+            '20': 'Bachelor of Science in Hospitality Management'
+        };
+
+        // Format date for display
+        function formatDateTime(date) {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        // Format time ago
+        function timeAgo(timestamp) {
+            const now = new Date();
+            const diff = now - new Date(timestamp);
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+            if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+            if (days < 7) return `${days} day${days === 1 ? '' : 's'} ago`;
+            
+            return formatDateTime(new Date(timestamp));
+        }
+
+        // Update last login in real-time
+        function updateLastLoginDisplay() {
+            const lastLogin = localStorage.getItem('lastLogin');
+            const lastLoginElement = document.getElementById('dropdown-last-login');
+            
+            if (lastLogin) {
+                const lastLoginTime = new Date(lastLogin);
+                const timeString = timeAgo(lastLoginTime);
+                lastLoginElement.textContent = timeString;
+                
+                // Update every minute
+                setTimeout(updateLastLoginDisplay, 60000);
+            }
+        }
+
+        // Check if user is logged in
+        function checkAuth() {
+            const storedUser = localStorage.getItem('currentUser');
+            if (!storedUser) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            
+            try {
+                const user = JSON.parse(storedUser);
+                if (!user.isLoggedIn) {
+                    window.location.href = 'login.html';
+                    return null;
+                }
+                return user;
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                window.location.href = 'login.html';
+                return null;
+            }
+        }
+
+        // Toggle user dropdown
+        function setupUserToggle() {
+            const userToggle = document.getElementById('user-toggle');
+            const userDropdown = document.getElementById('user-dropdown');
+            
+            userToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userToggle.contains(e.target) && !userDropdown.contains(e.target)) {
+                    userDropdown.classList.remove('active');
+                }
+            });
+        }
+
+        // Save last login time
+        function saveLastLogin() {
+            const now = new Date();
+            localStorage.setItem('lastLogin', now.toISOString());
+            
+            // Also update in the current user object
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                user.lastLogin = now.toISOString();
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+        }
+
+        // Open Student Profile
+        function openStudentProfile() {
+            // Close dropdown first
+            document.getElementById('user-dropdown').classList.remove('active');
+            
+            // Show message
+            alert('Student Profile feature will open in Student Details page.');
+            
+            // Redirect to Student Details page
+            setTimeout(() => {
+                window.location.href = 'Student Details.html';
+            }, 500);
+        }
+
+        // Handle Finance Portal navigation
+        function navigateToFinance() {
+            const user = checkAuth();
+            if (!user) return;
+            
+            // Save user data for Finance portal to use
+            const userName = user.name || (user.email ? user.email.split('@')[0] : 'Student');
+            const courseCode = user.courseCode || '09';
+            const programName = courseCodes[courseCode] || courseCodes['09'];
+            
+            localStorage.setItem('financeUserData', JSON.stringify({
+                name: userName,
+                id: user.studentId,
+                courseCode: courseCode,
+                program: programName,
+                email: user.email,
+                status: user.status,
+                mobile: user.mobile
+            }));
+            
+            // Redirect to Finance.html
+            window.location.href = 'Finance.html';
+        }
+
+        // Render live calendar (for both inline and full page)
+        function renderCalendar(prefix = '') {
+            const today = new Date();
+            const month = today.getMonth();
+            const year = today.getFullYear();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            const monthYearEl = document.getElementById(prefix + 'calendar-month-year');
+            if (monthYearEl) monthYearEl.innerText = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let calendarHTML = '';
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                calendarHTML += `<div class="calendar-day-name">${day}</div>`;
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += '<div></div>';
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = (d === today.getDate() && month === today.getMonth() && year === today.getFullYear());
+                calendarHTML += `<div class="calendar-date ${isToday ? 'today' : ''}">${d}</div>`;
+            }
+
+            const daysEl = document.getElementById(prefix + 'calendar-days');
+            if (daysEl) daysEl.innerHTML = calendarHTML;
+        }
+
+        // Text formatting (shared)
+        function setupTextTools(prefix = '') {
+            const input = document.getElementById(prefix + 'text-input');
+            if (!input) return;
+            document.getElementById(prefix + 'uppercase-btn').addEventListener('click', () => {
+                input.value = input.value.toUpperCase();
+            });
+            document.getElementById(prefix + 'lowercase-btn').addEventListener('click', () => {
+                input.value = input.value.toLowerCase();
+            });
+            document.getElementById(prefix + 'capitalize-btn').addEventListener('click', () => {
+                input.value = input.value.replace(/\b\w/g, l => l.toUpperCase());
+            });
+        }
+
+        // Theme management (shared)
+        function setupThemeControls(prefix = '') {
+            const modeSelect = document.getElementById(prefix + 'theme-mode');
+            const colorPicker = document.getElementById(prefix + 'color-theme');
+            const bgSelect = document.getElementById(prefix + 'bg-theme');
+            const preview = document.getElementById(prefix + 'bg-preview');
+
+            // Load saved theme from localStorage
+            const savedTheme = JSON.parse(localStorage.getItem('studentServicesTheme')) || {};
+            if (savedTheme.mode) modeSelect.value = savedTheme.mode;
+            if (savedTheme.color) colorPicker.value = savedTheme.color;
+            if (savedTheme.bg) bgSelect.value = savedTheme.bg;
+
+            function applyTheme() {
+                const mode = modeSelect.value;
+                const color = colorPicker.value;
+                const bg = bgSelect.value;
+
+                // Mode (dark/light)
+                if (mode === 'dark') {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+
+                // Color theme (update primary and accent)
+                document.documentElement.style.setProperty('--primary', color);
+                // Generate a complementary accent
+                const accent = adjustColor(color, 40);
+                document.documentElement.style.setProperty('--accent', accent);
+
+                // Background gradient
+                let gradientStart, gradientEnd;
+                switch(bg) {
+                    case 'gradient1':
+                        gradientStart = '#f5f7ff'; gradientEnd = '#eef1ff';
+                        break;
+                    case 'gradient2':
+                        gradientStart = '#a8edea'; gradientEnd = '#fed6e3';
+                        break;
+                    case 'gradient3':
+                        gradientStart = '#fbc2eb'; gradientEnd = '#a6c1ee';
+                        break;
+                    case 'solid1':
+                        gradientStart = '#e0e0e0'; gradientEnd = '#d0d0d0';
+                        break;
+                    case 'solid2':
+                        gradientStart = '#2b2b3a'; gradientEnd = '#1e1e2b';
+                        break;
+                    default: gradientStart = '#f5f7ff'; gradientEnd = '#eef1ff';
+                }
+                document.documentElement.style.setProperty('--bg-gradient-start', gradientStart);
+                document.documentElement.style.setProperty('--bg-gradient-end', gradientEnd);
+                if (preview) preview.style.background = `linear-gradient(135deg, ${gradientStart}, ${gradientEnd})`;
+
+                // Save to localStorage
+                localStorage.setItem('studentServicesTheme', JSON.stringify({ mode, color, bg }));
+            }
+
+            function adjustColor(hex, percent) {
+                // Simple color adjustment
+                let R = parseInt(hex.substring(1,3), 16);
+                let G = parseInt(hex.substring(3,5), 16);
+                let B = parseInt(hex.substring(5,7), 16);
+                R = Math.min(255, R + percent);
+                G = Math.min(255, G - 20);
+                B = Math.min(255, B + 10);
+                return `#${((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1)}`;
+            }
+
+            modeSelect.addEventListener('change', applyTheme);
+            colorPicker.addEventListener('input', applyTheme);
+            bgSelect.addEventListener('change', applyTheme);
+            applyTheme(); // initial
+        }
+
+        // Switch to full services page
+        function showFullServices() {
+            document.getElementById('main-dashboard').style.display = 'none';
+            document.getElementById('services-full-page').classList.add('active');
+            renderCalendar('full-');  // render full page calendar
+            setupTextTools('full-');   // setup full page text tools
+            setupThemeControls('full-'); // sync full page theme controls
+            // Also sync values from main to full
+            const mainMode = document.getElementById('theme-mode').value;
+            const mainColor = document.getElementById('color-theme').value;
+            const mainBg = document.getElementById('bg-theme').value;
+            document.getElementById('full-theme-mode').value = mainMode;
+            document.getElementById('full-color-theme').value = mainColor;
+            document.getElementById('full-bg-theme').value = mainBg;
+        }
+
+        // Switch back to dashboard
+        function hideFullServices() {
+            document.getElementById('main-dashboard').style.display = 'block';
+            document.getElementById('services-full-page').classList.remove('active');
+            // Re-render main calendar (in case month changed)
+            renderCalendar('');
+        }
+
+        // Initialize dashboard
+        function initDashboard() {
+            const user = checkAuth();
+            if (!user) return;
+            
+            // Get user's course code (default to 09 for IT if not available)
+            const courseCode = user.courseCode || '09';
+            const programName = user.program || courseCodes[courseCode] || 'Bachelor of Science in Information Technology';
+            
+            // Extract username from email if name not available
+            const userName = user.name || (user.email ? user.email.split('@')[0] : 'Student');
+            const shortName = userName.split(' ')[0];
+            
+            // Update user info
+            document.getElementById('welcome-title').textContent = `Welcome, ${shortName}!`;
+            document.getElementById('dropdown-name').textContent = userName;
+            document.getElementById('dropdown-id').textContent = user.studentId || 'Not Assigned';
+            document.getElementById('dropdown-program').textContent = `${programName.split('Bachelor of ')[1] || programName} Student`;
+            document.getElementById('dropdown-program-name').textContent = programName;
+            document.getElementById('dropdown-year').textContent = user.yearLevel || '2024-2025';
+            document.getElementById('dropdown-status').textContent = user.status || 'Active';
+            
+            // Update last login
+            if (user.lastLogin) {
+                document.getElementById('dropdown-last-login').textContent = timeAgo(user.lastLogin);
+            } else {
+                saveLastLogin();
+                updateLastLoginDisplay();
+            }
+            
+            // Update dashboard title
+            document.getElementById('current-program-title').textContent = `${programName} Dashboard`;
+            
+            // Setup user toggle dropdown
+            setupUserToggle();
+            
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('lastLogin');
+                    localStorage.removeItem('financeUserData');
+                    localStorage.removeItem('studentServicesTheme');
+                    window.location.href = 'login.html';
+                }
+            });
+            
+            // "View Academic Details" button - ensure it's clickable
+            const academicLink = document.getElementById('view-academic-details');
+            academicLink.addEventListener('click', function(e) {
+                // No preventDefault, so the href="Student Details.html" works naturally
+                console.log('Navigating to Student Details.html');
+            });
+            
+            // Finance Portal link
+            document.getElementById('finance-portal-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateToFinance();
+            });
+            
+            // Other card links (unchanged)
+            document.getElementById('schedule-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Redirecting to Course Schedule...');
+            });
+            
+            document.getElementById('resources-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Redirecting to Learning Resources...');
+            });
+            
+            document.getElementById('community-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Redirecting to Campus Community...');
+            });
+
+            // View All Services link
+            document.getElementById('view-all-services-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showFullServices();
+            });
+
+            // Back to Dashboard link
+            document.getElementById('back-to-dashboard').addEventListener('click', function(e) {
+                e.preventDefault();
+                hideFullServices();
+            });
+
+            // Calendar, Text Tools, Theme for main
+            renderCalendar('');
+            setupTextTools('');
+            setupThemeControls('');
+            
+            console.log('Dashboard initialized for user:', userName);
+            console.log('Program:', programName);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Save login time on initial load
+            saveLastLogin();
+            
+            // Start real-time last login updates
+            updateLastLoginDisplay();
+            
+            // Initialize dashboard
+            initDashboard();
+
+            // Add click handler for logo to redirect to maindashboard.html
+            const logoHome = document.getElementById('logo-home');
+            logoHome.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Redirect to maindashboard.html
+                window.location.href = 'maindashboard.html';
+            });
+        });
+    </script>
+</body>
+</html>
